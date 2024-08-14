@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 
 int* generateRoandomVectorInt(unsigned int n, int min, int max) {
     int *p = (int*)malloc(n * sizeof(int));
@@ -89,12 +90,57 @@ void insertSort(T *vector, unsigned int n){
 }
 // ### END ###
 
+// ### Merge sort ###
+void merge(int *vector, unsigned int p, unsigned int q, unsigned int r){
+	unsigned int sizeVA = q - p + 1;
+	int *vA = new int[sizeVA + 1];
+	
+	for(int i = 0; i < sizeVA; i++)
+		vA[i] = vector[p+i];
+	
+	vA[sizeVA] = INT_MAX;
+	
+	unsigned int sizeVB = r - q;
+	int *vB = new int[sizeVB + 1];
+	
+	for(int i = 0; i < sizeVB; i++)
+		vB[i] = vector[q+1+i];
+	
+	vB[sizeVB] = INT_MAX;
+	
+	int i = 0, iA = 0, iB = 0;
+	
+	for(int i = p; i <= r; i++){
+		if(vA[iA] <= vB[iB]){
+			vector[i] = vA[iA];
+			iA++; 
+		}
+		else{
+			vector[i] = vB[iB];
+			iB++;
+		}
+	}
+	
+	delete[] vA;
+	delete[] vB;
+}
+
+void mergeSort(int *vector, unsigned int e, unsigned int d){
+	if(e < d){
+		int m = (e + d)/2;
+		mergeSort(vector, e, m);
+		mergeSort(vector, m + 1, d);
+		merge(vector,e,m,d);
+	}
+}
+// ### END ###
+
 int main() {
     int *vector = generateRoandomVectorInt(20, 0, 50);
     
     printVector<int>(vector, 20);
     
-    insertSort<int>(vector, 20);
+    mergeSort(vector, 0,20);
     	
     printVector<int>(vector, 20);
     	
