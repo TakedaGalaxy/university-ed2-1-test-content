@@ -68,14 +68,35 @@ void boubbleSort(T *vector, unsigned int n){
 }
 // ### END ###
 
+// ### Insert Sort ###
+template <typename T>
+void insert(T *vector, unsigned int k){
+	int i = k-1;
+	T kValue = vector[k];
+	
+	while(i >= 0 &&  vector[i] > kValue){
+		vector[i+1] = vector[i];
+		i--;
+	}
+	
+	vector[i + 1] = kValue;
+}
+
+template <typename T>
+void insertSort(T *vector, unsigned int n){
+	for(int i = 1; i < n; i++)
+		insert<T>(vector,i);
+}
+// ### END ###
+
 int main() {
     int *vector = generateRoandomVectorInt(20, 0, 50);
     
-    printVector<int>(vector, 10);
+    printVector<int>(vector, 20);
     
-    boubbleSort<int>(vector, 10);
+    insertSort<int>(vector, 20);
     	
-    printVector<int>(vector, 10);
+    printVector<int>(vector, 20);
     	
     return 0;
 }
