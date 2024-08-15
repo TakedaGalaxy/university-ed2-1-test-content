@@ -135,12 +135,37 @@ void mergeSort(int *vector, unsigned int e, unsigned int d){
 }
 // ### END ###
 
+// ### Quick Sort ###
+int partition(int *vector, int p,  int r){
+	int x = vector[r];
+	int i = p - 1;
+
+	for(int j = p; j < r; j++){
+		if(vector[j] <= x){
+			i++;
+			swap<int>(vector, i,j);
+		}
+	}
+	
+	swap<int>(vector, i+1, r);
+	return i + 1;
+}
+
+void quickSort(int *vector, int e, int d){
+	if(e < d){
+		int m = partition(vector, e,d);
+		quickSort(vector, e, m - 1);
+		quickSort(vector, m + 1, d);
+	}
+}
+// ### END ###
+
 int main() {
     int *vector = generateRoandomVectorInt(20, 0, 50);
     
     printVector<int>(vector, 20);
     
-    mergeSort(vector, 0,20);
+    quickSort(vector, 0,19);
     	
     printVector<int>(vector, 20);
     	
