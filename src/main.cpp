@@ -160,14 +160,48 @@ void quickSort(int *vector, int e, int d){
 }
 // ### END ###
 
+// ### Heap Sort ###
+void maxHeap(int *vector, int i, int th){
+	int l = (i*2) + 1;
+	int r = l + 1;
+	
+	int max = i;
+	
+	if(l < th && vector[l] > vector[i])
+		max = l;
+	
+	if(r < th && vector[r] > vector[max])
+		max = r;
+	
+	if(max != i){
+		swap(vector,i,max);
+		maxHeap(vector, max, th);
+	}
+}
+
+void buildVectorMaxHeap(int *vector, int n){
+	for(int i = n/2; i >= 0; i--)
+		maxHeap(vector, i, n);
+}
+
+void heapSort(int *vector, int n){
+	buildVectorMaxHeap(vector,n);
+	
+	for(int i = n-1; i > 0; i--){
+		swap(vector, 0, i);
+		maxHeap(vector, 0, i);
+	}
+}
+// ### END ###
+
 int main() {
-    int *vector = generateRoandomVectorInt(20, 0, 50);
+    int *vector = generateRoandomVectorInt(8, 0, 50);
     
-    printVector<int>(vector, 20);
+    printVector<int>(vector, 8);
     
-    quickSort(vector, 0,19);
-    	
-    printVector<int>(vector, 20);
+		heapSort(vector, 8);
+			
+    printVector<int>(vector, 8);
     	
     return 0;
 }
